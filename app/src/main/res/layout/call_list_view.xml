@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:id="@+id/textViewNameHeading"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Name:"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/textViewNameValue"
+        app:layout_constraintHorizontal_chainStyle="packed" />
+
+    <TextView
+        android:id="@+id/textViewNameValue"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="John Doe"
+        app:layout_constraintStart_toEndOf="@id/textViewNameHeading"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- Price -->
+    <TextView
+        android:id="@+id/textViewPriceHeading"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Number:"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textViewNameValue"
+        app:layout_constraintEnd_toStartOf="@+id/textViewNumberValue"
+        app:layout_constraintHorizontal_chainStyle="packed" />
+
+    <TextView
+        android:id="@+id/textViewNumberValue"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="$10.99"
+        app:layout_constraintStart_toEndOf="@id/textViewPriceHeading"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textViewNameValue" />
+
+    <View
+        android:id="@+id/horizontalLine"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"
+        app:layout_constraintTop_toBottomOf="@id/textViewNumberValue"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>
