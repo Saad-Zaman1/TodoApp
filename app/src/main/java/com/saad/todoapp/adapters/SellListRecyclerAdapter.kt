@@ -1,40 +1,38 @@
 package com.saad.todoapp.adapters
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.saad.todoapp.R
+import com.saad.todoapp.databinding.SellListViewBinding
 import com.saad.todoapp.room.SellListEntity
 
 
 class MyAdapter(private var data: List<SellListEntity>) :
     RecyclerView.Adapter<MyAdapter.ViewHolder>() {
 
-    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val textViewNameValue: TextView = itemView.findViewById(R.id.textViewNameValue)
-        val textViewPriceValue: TextView = itemView.findViewById(R.id.textViewNumberValue)
-        val textViewQuantityValue: TextView = itemView.findViewById(R.id.textViewQuantityValue)
-        val textViewTypeValue: TextView = itemView.findViewById(R.id.textViewTypeValue)
+    inner class ViewHolder(private val binding: SellListViewBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+        fun bind(item: SellListEntity) {
+            binding.textViewNameValue.text = item.name
+            binding.textViewNumberValue.text = item.price
+            binding.textViewQuantityValue.text = item.quantity
+            binding.textViewTypeValue.text = item.type
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val itemView =
+        val inflater =
             LayoutInflater.from(parent.context)
-                .inflate(R.layout.sell_list_view, parent, false)
-        return ViewHolder(itemView)
-    }
-
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val currentItem = data[position]
-        holder.textViewNameValue.text = currentItem.name
-        holder.textViewPriceValue.text = currentItem.price
-        holder.textViewQuantityValue.text = currentItem.quantity
-        holder.textViewTypeValue.text = currentItem.type
+        val binding = SellListViewBinding.inflate(inflater, parent, false)
+        return ViewHolder(binding)
     }
 
     override fun getItemCount() = data.size
+
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        val currentItem = data[position]
+        holder.bind(currentItem)
+    }
 
     fun updateList(list: List<SellListEntity>) {
         data = list

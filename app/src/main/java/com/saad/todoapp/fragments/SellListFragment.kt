@@ -26,11 +26,11 @@ import dagger.hilt.android.AndroidEntryPoint
 class SellListFragment : Fragment() {
     private lateinit var binding: FragmentSellListBinding
     private val viewModel: MainViewModel by viewModels()
+    private lateinit var adapter: MyAdapter
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_sell_list, container, false)
         return binding.root
     }
@@ -42,7 +42,7 @@ class SellListFragment : Fragment() {
             binding.recyclerView.findViewById<RecyclerView>(R.id.recycle_reuse_layout)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-        val adapter = MyAdapter(emptyList())
+        adapter = MyAdapter(emptyList())
         viewModel.getSellItem().observe(viewLifecycleOwner) {
             Log.i("DataFromDB", it.toString())
             adapter.updateList(it)

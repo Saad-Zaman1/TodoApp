@@ -8,16 +8,20 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.saad.todoapp.R
+import com.saad.todoapp.adapters.MyAdapter
 import com.saad.todoapp.databinding.FragmentBuyListBinding
-import com.saad.todoapp.room.SellListEntity
 import com.saad.todoapp.viewmodels.MainViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
 
+@AndroidEntryPoint
 class BuyListFragment : Fragment() {
     private lateinit var binding: FragmentBuyListBinding
     private val viewModel: MainViewModel by viewModels()
-    private lateinit var callList: List<SellListEntity>
+    private lateinit var adapter: MyAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -29,20 +33,16 @@ class BuyListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-//        val recyclerView =
-//            binding.recyclerViewBuy.findViewById<RecyclerView>(R.id.recycle_reuse_layout)
-//        recyclerView.layoutManager = LinearLayoutManager(requireContext())
-//
-//        val adapter = MyAdapter(emptyList())
 
-
-        viewModel.getBuyData().observe(viewLifecycleOwner) {
-            if (it.body() != null) {
-                Log.i("Datafromlivedata", "${it.body()}")
-            }
+        adapter = MyAdapter(emptyList())
+        viewModel.buysData.observe(viewLifecycleOwner) {
+            Log.i("DatafromapiBuy", "$it")
+            adapter = MyAdapter(it)
+            val recyclerView =
+                binding.recyclerViewBuy.findViewById<RecyclerView>(R.id.recycle_reuse_layout)
+            recyclerView.adapter = adapter
+            recyclerView.layoutManager = LinearLayoutManager(requireContext())
         }
-
-//        recyclerView.adapter = adapter
 
     }
 

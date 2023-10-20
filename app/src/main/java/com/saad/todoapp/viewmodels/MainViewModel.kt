@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.saad.todoapp.models.CallModel
 import com.saad.todoapp.repository.Repository
 import com.saad.todoapp.room.SellListEntity
@@ -11,12 +12,16 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import retrofit2.Response
 import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(private val repository: Repository) : ViewModel() {
 
+    init {
+        callData("")
+        buyData("")
+
+    }
 
     suspend fun addSellItem(item: SellListEntity) {
         return repository.addSellItem(item)
@@ -26,13 +31,6 @@ class MainViewModel @Inject constructor(private val repository: Repository) : Vi
         return repository.getSellItem()
     }
 
-    fun getBuyData(): LiveData<Response<List<SellListEntity>>> {
-        return repository.getBuyData()
-    }
-
-    fun getCallData(): LiveData<Response<List<CallModel>>> {
-        return repository.getCallData()
-    }
 
     var name = MutableLiveData<String>()
     var price = MutableLiveData<String>()
@@ -58,4 +56,21 @@ class MainViewModel @Inject constructor(private val repository: Repository) : Vi
         quantity.value == ""
         type.value == ""
     }
+
+    fun callData(call: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.getCallData(call)
+        }
+    }
+
+    fun buyData(buy: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.getBuyData(buy)
+        }
+    }
+
+    val buysData: LiveData<List<SellListEntity>>
+        get() = repository.buyLiveData
+    val CallsData: LiveData<List<CallModel>>
+        get() = repository.callLiveData
 }

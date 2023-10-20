@@ -1,50 +1,36 @@
 package com.saad.todoapp.adapters
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.saad.todoapp.R
+import com.saad.todoapp.databinding.CallListViewBinding
 import com.saad.todoapp.models.CallModel
 
 
-class CallListRecyclerAdapter(private var data: List<CallModel>) :
+class CallListRecyclerAdapter(private val callList: List<CallModel>) :
     RecyclerView.Adapter<CallListRecyclerAdapter.ViewHolder>() {
-
-
-    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val textViewNameValue: TextView = itemView.findViewById(R.id.textViewNameValue)
-        val textViewNumberValue: TextView = itemView.findViewById(R.id.textViewNumberValue)
+    inner class ViewHolder(private val binding: CallListViewBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+        fun bind(item: CallModel) {
+            binding.textViewNameValue.text = item.name
+            binding.textViewNumberValue.text = item.number
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val itemView =
-            LayoutInflater.from(parent.context)
-                .inflate(R.layout.call_list_view, parent, false)
-        return ViewHolder(itemView)
-    }
-
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val currentItem = data[position]
-
-        holder.textViewNameValue.text = currentItem.name
-        holder.textViewNumberValue.text = currentItem.number
-
+        val inflater = LayoutInflater.from(parent.context)
+        val binding = CallListViewBinding.inflate(inflater, parent, false)
+        return ViewHolder(binding)
     }
 
     override fun getItemCount(): Int {
-
-        return data.size
+        return callList.size
     }
 
-    fun updateList(list: List<CallModel>) {
-        data = list
-        notifyDataSetChanged()
-//        Log.i("DataFromApiRecycler", "${data.size}")
-//        Handler(Looper.getMainLooper()).post {
-//            notifyDataSetChanged()
-//        }
-
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        val item = callList[position]
+        val callList = CallModel(item.id, item.name, item.number)
+        holder.bind(callList)
     }
+
 }
