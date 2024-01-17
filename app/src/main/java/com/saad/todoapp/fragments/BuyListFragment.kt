@@ -36,7 +36,7 @@ class BuyListFragment : Fragment() {
 
         adapter = MyAdapter(emptyList())
         viewModel.buysData.observe(viewLifecycleOwner) {
-            Log.i("DatafromapiBuy", "$it")
+            Log.i("DatafromapiBuynew", "$it")
             adapter = MyAdapter(it)
             val recyclerView =
                 binding.recyclerViewBuy.findViewById<RecyclerView>(R.id.recycle_reuse_layout)
